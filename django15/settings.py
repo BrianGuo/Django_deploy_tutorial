@@ -5,7 +5,7 @@ import os
 PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
 SITE_ROOT = os.path.dirname(PROJECT_ROOT)
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -15,11 +15,8 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-    'default': { 
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'django_deploy',                     
-        'USER': 'root',
-        'PASSWORD': '',
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
     }
 }
 
@@ -147,3 +144,17 @@ LOGGING = {
         },
     }
 }
+
+ALLOWED_HOSTS = ['*']
+
+import dj_database_url
+
+DATABASES = {'default': dj_database_url.config()}
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
+
+try:
+    from local_settings import *
+except Exception as e:
+    pass
+
